@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<control xmlns="http://www.askia.com/ADCSchema"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.askia.com/ADCSchema http://www.askia.com/Downloads/dev/schemas/adc2.0/Config.xsd"
+         version="2.0.0"
+         askiaCompat="5.3.3">
+  <info>
+    <name>adc2-googleMaps</name>
+    <guid>9e09a4dd-02b5-40cf-9520-b010ab328110</guid>
+    <version>1.0.0</version>
+    <date>2015-04-21</date>
+    <description>
+      <![CDATA[
+        ADC using Google Maps
+		
+		Returning two numbers which are the coordinates of the point marked by the respondant.
+  
+        Requires:
+		Requires a loop containing two responses (latitude and longitude), and a numeric question in this loop (set to 15 decimals).
+		The two response blocks to this question have to be merged on the same screen.
+		
+		Notes:
+		If going back in the survey, the marker position is saved.
+		This ADC works for multiple instances on the same screen.
+		
+      ]]>
+    </description>
+    <author>
+      <![CDATA[
+        Thibault Piriou <thibault@askia.com> 
+      ]]>
+    </author>
+    <company>Askia</company>
+    <helpURL></helpURL>
+    <site></site>
+    <categories>
+      <category>General</category>
+    </categories>
+    <style width="400" height="300"/>
+    <constraints>
+      <constraint on="questions" multiple="true" numeric="true"/>
+      <constraint on="controls" responseblock="true" textbox="true" label="true" />
+    </constraints>
+  </info>
+
+  <outputs defaultOutput="fallback">
+    <output id="fallback">
+      <description><![CDATA[Fallback when the browser doesn't support Javascript]]></description>
+      <condition><![CDATA[Not(Browser.Support("javascript"))]]></condition>
+
+      <content fileName="default.html" type="html" mode="dynamic" position="placeholder" />
+	  <content fileName="default.css" type="css" mode="static" position="head" />
+
+    </output>
+	    <output id="standard">
+      <description><![CDATA[Standard output with supported Javascript]]></description>
+      <condition><![CDATA[Browser.Support("javascript")]]></condition>
+
+      <content fileName="standard.html" type="html" mode="dynamic" position="placeholder" />
+      <content fileName="default.css" type="css" mode="static" position="head" />
+	  <content fileName="initMap.js" type="javascript" mode="dynamic" position="none" />
+
+      <content fileName="es5-shim.min.js" type="javascript" mode="share" position="foot">
+        <yield>
+          <![CDATA[
+          <!--[if lt IE 10]>
+            <script type="text/javascript" src="{%= CurrentADC.URLTo("share/es5-shim.min.js") %}"></script>
+          <![endif]-->
+          ]]>
+        </yield>
+      </content>
+	  <content fileName="jquery-1.11.1.min.js" type="javascript" mode="share" position="head"/>
+	  <content fileName="jquery-ui-1.10.4.custom.min.js" type="javascript" mode="share" position="head"/>
+	  <content fileName="jquery.ui.touch-punch.min.js" type="javascript" mode="share" position="head"/>
+	
+    </output>
+  </outputs>
+
+  <properties>
+	<category id="map" name="Map">
+	
+		<property xsi:type="standardProperty" id="mapStyle" name="map Style" type="string" mode="static">
+			<description>
+			  <![CDATA[
+				The desired style for the map.
+			  ]]>
+			</description>
+			<value>ROADMAP</value>
+			<options>
+				<option value="ROADMAP" text="Road Map"/>
+				<option value="SATELLITE" text="Satellite" />
+				<option value="TERRAIN" text="Terrain" />
+				<option value="HYBRID" text="Hybrid" />
+			</options>
+		</property>
+		
+		<property xsi:type="standardProperty" id="mapHeight" name="Map size - Height" type="number" mode="static">
+			<description>
+				  <![CDATA[
+				  The size of the map (height).
+				]]>
+			</description>
+        <value>400</value>
+      </property>
+		
+		<property xsi:type="standardProperty" id="mapWidth" name="Map size - Width" type="number" mode="static">
+			<description>
+				  <![CDATA[
+				  The size of the map (width).
+				]]>
+			</description>
+        <value>600</value>
+      </property>
+	</category>
+
+	<category id="startingCoord" name="Starting coordinates" >
+	
+		<property xsi:type="standardProperty" id="startingLat" name="Starting latitude" type="number" mode="static">
+			<description>
+				  <![CDATA[
+				  The starting latitude.
+				  Default : Centered on Europe.
+				]]>
+			</description>
+        <value>48.30</value>
+      </property>
+		<property xsi:type="standardProperty" id="startingLng" name="Starting longitude" type="number" mode="static">
+			<description>
+				  <![CDATA[
+				  The starting longitude.
+				  Default : Centered on Europe.
+				]]>
+			</description>
+        <value>10.75</value>
+      </property>
+		<property xsi:type="standardProperty" id="startingZoom" name="Starting zoom" type="number" mode="static">
+			<description>
+				  <![CDATA[
+				  The starting zoom om the map.
+				  Default : Centered on Europe.
+				]]>
+			</description>
+        <value>4</value>
+      </property>
+	
+	</category>
+	
+  </properties>
+</control>

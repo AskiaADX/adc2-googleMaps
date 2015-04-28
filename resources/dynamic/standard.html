@@ -1,0 +1,40 @@
+﻿{% 
+Dim ar
+Dim qFinputName
+Dim qSinputName
+Dim qFinputValue
+Dim qSinputValue
+Dim adcId = CurrentADC.InstanceID
+
+
+Dim mapHeight =CurrentADC.PropValue("mapHeight")
+Dim mapWidth =CurrentADC.PropValue("mapWidth")
+
+Dim i
+
+Dim attrRequired = On(CurrentQuestion.IsAllowDK, "required=\"required\"", "")
+%}
+
+<div id="adc_{%= CurrentQuestion.Id %}" class="adc-default">
+
+{% ' TODO verify if there is 2 questions in a loop as intended
+
+	ar = CurrentQuestion.ParentLoop.AvailableResponses
+	qFinputName = CurrentQuestion.Iteration(ar[1].Index).InputName()
+	qSinputName = CurrentQuestion.Iteration(ar[2].Index).InputName()
+	qFinputValue = CurrentQuestion.Iteration(ar[1].Index).InputValue()
+	qSinputValue = CurrentQuestion.Iteration(ar[2].Index).InputValue()
+%}
+ <input hidden type="number" name="{%= qFinputName %}" id="{%= qFinputName %}" value="{%= qFinputValue %}" step="any" />
+ <input hidden type="number" name="{%= qSinputName %}" id="{%= qSinputName %}" value="{%= qSinputValue %}" step="any" />
+
+
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+
+<script>{%:= CurrentADC.getContent("dynamic/initMap.js").ToText() %}</script>
+
+
+<div id="googleMap{%= adcId %}" style="width:{%= mapWidth %}px;height:{%= mapHeight %}px;"></div>
+
+
+</div>
