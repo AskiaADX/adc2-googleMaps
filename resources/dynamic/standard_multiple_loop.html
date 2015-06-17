@@ -1,0 +1,17 @@
+{%
+Dim i
+Dim j
+Dim inputName
+Dim inputValue
+Dim ar = CurrentQuestion.ParentLoop.ParentLoop.AvailableResponses
+Dim ar2 = CurrentQuestion.ParentLoop.AvailableResponses
+
+For i = 1 To ar.Count
+	For j = 1 to ar2.count
+	inputName = CurrentQuestion.Iteration(loop:i,loop2:j).InputName()
+	inputValue = CurrentQuestion.Iteration(loop:i,loop2:j).InputValue() %}
+
+	<input hidden type="number" name="{%= inputName %}" id="{%= inputName %}" value="{%= inputValue %}" step="any" />
+
+	{% Next%}
+{% Next %}

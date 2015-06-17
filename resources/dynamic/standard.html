@@ -1,4 +1,4 @@
-﻿{% 
+﻿{%
 Dim ar
 Dim qFinputName
 Dim qSinputName
@@ -6,19 +6,32 @@ Dim qFinputValue
 Dim qSinputValue
 Dim adcId = CurrentADC.InstanceID
 
+Dim useCurrentPosButton   = (CurrentADC.PropValue("useCurrentPosButton") = "1")
+Dim setCurPosLabel =CurrentADC.PropValue("setCurPosLabel")
 
-Dim mapHeight =CurrentADC.PropValue("mapHeight")
 Dim mapWidth =CurrentADC.PropValue("mapWidth")
+Dim mapHeight =CurrentADC.PropValue("mapHeight")
 
-Dim i
+
+
+Dim multipleMarkers = (CurrentADC.PropValue("multipleMarkers") = "1")
+Dim nbMarkers =CurrentADC.PropValue("nbMarkers")
 
 Dim attrRequired = On(CurrentQuestion.IsAllowDK, "required=\"required\"", "")
 %}
 
+{% If adcId < 2 Then %}
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+{% EndIf %}
+
 <div id="adc_{%= CurrentQuestion.Id %}" class="adc-googleMaps">
 
-{% ' TODO verify if there is 2 questions in a loop as intended
+{% If multipleMarkers Then %}
 
+{%:= CurrentADC.GetContent("dynamic/standard_multiple_loop.html").ToText()%}
+
+{% Else %}
+{%
 	ar = CurrentQuestion.ParentLoop.AvailableResponses
 	qFinputName = CurrentQuestion.Iteration(ar[1].Index).InputName()
 	qSinputName = CurrentQuestion.Iteration(ar[2].Index).InputName()
@@ -27,14 +40,17 @@ Dim attrRequired = On(CurrentQuestion.IsAllowDK, "required=\"required\"", "")
 %}
  <input hidden type="number" name="{%= qFinputName %}" id="{%= qFinputName %}" value="{%= qFinputValue %}" step="any" />
  <input hidden type="number" name="{%= qSinputName %}" id="{%= qSinputName %}" value="{%= qSinputValue %}" step="any" />
-
-
-<script src="http://maps.googleapis.com/maps/api/js"></script>
-
-<script>{%:= CurrentADC.getContent("dynamic/initMap.js").ToText() %}</script>
-
+{% EndIf %}
 
 <div id="googleMap{%= adcId %}" style="width:{%= mapWidth %}px;height:{%= mapHeight %}px;"></div>
+
+{% If useCurrentPosButton Then %}
+<button type='button' class="geolocationButton" onclick='setCurPos({%= adcId %}-1)'>{%= setCurPosLabel %}</button>
+{% EndIf %}
+
+
+
+<script>{%:= CurrentADC.getContent("dynamic/initMapDynamic.js").ToText() %}</script>
 
 
 </div>

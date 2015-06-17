@@ -6,10 +6,6 @@ Dim qFinputValue
 Dim qSinputValue
 Dim adcId = CurrentADC.InstanceID
 
-
-Dim mapHeight =CurrentADC.PropValue("mapHeight")
-Dim mapWidth =CurrentADC.PropValue("mapWidth")
-
 Dim i
 
 Dim attrRequired = On(CurrentQuestion.IsAllowDK, "required=\"required\"", "")
@@ -17,10 +13,6 @@ Dim attrRequired = On(CurrentQuestion.IsAllowDK, "required=\"required\"", "")
 
 
 <div id="adc_{%= CurrentQuestion.Id %}" class="adc-googleMaps">
-
- <input type="number" name="{%= qFinputName %}" id="{%= qFinputName %}" value="{%= qFinputValue %}" step="any" />
- <input type="number" name="{%= qSinputName %}" id="{%= qSinputName %}" value="{%= qSinputValue %}" step="any" />
-
 
 
 {% ' TODO verify if there is 2 questions in a loop as intended
@@ -31,5 +23,9 @@ Dim attrRequired = On(CurrentQuestion.IsAllowDK, "required=\"required\"", "")
 	qFinputValue = CurrentQuestion.Iteration(ar[1].Index).InputValue()
 	qSinputValue = CurrentQuestion.Iteration(ar[2].Index).InputValue()
 %}
+
+ <input type="number" name="{%= qFinputName %}" id="{%= qFinputName %}" value="{%= qFinputValue %}" step="any" />
+ <input type="number" name="{%= qSinputName %}" id="{%= qSinputName %}" value="{%= qSinputValue %}" step="any" />
+
 
 </div>

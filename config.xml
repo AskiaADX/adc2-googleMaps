@@ -7,27 +7,34 @@
   <info>
     <name>adc2-googleMaps</name>
     <guid>9e09a4dd-02b5-40cf-9520-b010ab328110</guid>
-    <version>1.0.0</version>
-    <date>2015-04-21</date>
+    <version>2.0.0</version>
+    <date>2015-06-17</date>
     <description>
       <![CDATA[
         ADC using Google Maps
-		
+
 		Returning two numbers which are the coordinates of the point marked by the respondant.
-  
+    The respondent can also use a button to use his current location as an answer, if allowed by his browser.
+
         Requires:
 		Requires a loop containing two responses (latitude and longitude), and a numeric question in this loop (set to 15 decimals).
 		The two response blocks to this question have to be merged on the same screen.
-		
+
+    For the multipleMarkers, you have to put a numeric question in 2 loops, the first one with the latitude and longitude, and the second one with the markers you want to record.
+    See the example file for more information.
+
 		Notes:
-		If going back in the survey, the marker position is saved.
+		If going back in the survey, the markers positions are saved.
 		This ADC works for multiple instances on the same screen.
-		
+
+    An askiaScript error might show up when not using multipleMarkers.
+    
+
       ]]>
     </description>
     <author>
       <![CDATA[
-        Thibault Piriou <thibault@askia.com> 
+        Thibault Piriou <thibault@askia.com>
       ]]>
     </author>
     <company>Askia</company>
@@ -57,8 +64,11 @@
       <condition><![CDATA[Browser.Support("javascript")]]></condition>
 
       <content fileName="standard.html" type="html" mode="dynamic" position="placeholder" />
+      <content fileName="standard_multiple_loop.html" type="html" mode="dynamic" position="none" />
       <content fileName="default.css" type="css" mode="static" position="head" />
-	  <content fileName="initMap.js" type="javascript" mode="dynamic" position="none" />
+	  <content fileName="initMapDynamic.js" type="javascript" mode="dynamic" position="none" />
+	  <content fileName="standard_multiple_loop.js" type="javascript" mode="dynamic" position="none" />
+    <content fileName="initMapStatic.js" type="javascript" mode="static" position="head" />
 
       <content fileName="es5-shim.min.js" type="javascript" mode="share" position="foot">
         <yield>
@@ -72,28 +82,28 @@
 	  <content fileName="jquery-1.11.1.min.js" type="javascript" mode="share" position="head"/>
 	  <content fileName="jquery-ui-1.10.4.custom.min.js" type="javascript" mode="share" position="head"/>
 	  <content fileName="jquery.ui.touch-punch.min.js" type="javascript" mode="share" position="head"/>
-	
+	  <!-- <content filename="mobileDetection.js" type="javascript" mode="share" position="head" /> -->
     </output>
   </outputs>
 
   <properties>
 	<category id="map" name="Map">
-	
+
 		<property xsi:type="standardProperty" id="mapStyle" name="map Style" type="string" mode="static">
 			<description>
 			  <![CDATA[
 				The desired style for the map.
 			  ]]>
 			</description>
-			<value>ROADMAP</value>
+			<value>roadmap</value>
 			<options>
-				<option value="ROADMAP" text="Road Map"/>
-				<option value="SATELLITE" text="Satellite" />
-				<option value="TERRAIN" text="Terrain" />
-				<option value="HYBRID" text="Hybrid" />
+				<option value="roadmap" text="Road Map"/>
+				<option value="satellite" text="Satellite" />
+				<option value="terrain" text="Terrain" />
+				<option value="hybrid" text="Hybrid" />
 			</options>
 		</property>
-		
+
 		<property xsi:type="standardProperty" id="mapHeight" name="Map size - Height" type="number" mode="static">
 			<description>
 				  <![CDATA[
@@ -102,7 +112,7 @@
 			</description>
         <value>400</value>
       </property>
-		
+
 		<property xsi:type="standardProperty" id="mapWidth" name="Map size - Width" type="number" mode="static">
 			<description>
 				  <![CDATA[
@@ -114,7 +124,7 @@
 	</category>
 
 	<category id="startingCoord" name="Starting coordinates" >
-	
+
 		<property xsi:type="standardProperty" id="startingLat" name="Starting latitude" type="number" mode="static">
 			<description>
 				  <![CDATA[
@@ -142,8 +152,80 @@
 			</description>
         <value>4</value>
       </property>
-	
+
 	</category>
-	
+
+
+	<category id="geolocation" name="Geolocation" >
+
+	   <property xsi:type="standardProperty" id="useCurrentPosButton" name="Use a button to set user's current position" type="boolean" mode="static">
+        <description>
+          <![CDATA[
+          Use a button which on click set the marker to the current position of the user, if his browser allows it.
+        ]]>
+        </description>
+        <value>false</value>
+      </property>
+
+      <property xsi:type="standardProperty" id="setCurPosLabel" name="Set current position button label" type="string" mode="static">
+        <description>
+          <![CDATA[
+          The label of the button used to set the user's position as a marker.
+          ]]>
+        </description>
+        <value>Set my current position</value>
+      </property>
+
+      <property xsi:type="standardProperty" id="startAtCurrentPos" name="Initialize map on user's current position" type="boolean" mode="static">
+          <description>
+            <![CDATA[
+           Initialize the map on the current position of the user, if his browser allows it.
+       If set as true, this property overrides the starting latitude and longitude properties.
+          ]]>
+          </description>
+          <value>false</value>
+        </property>
+
+        <property xsi:type="standardProperty" id="errorDisplayMode" name="Error display mode" type="string" mode="static">
+    			<description>
+    			  <![CDATA[
+    				The desired mode of display in case of a geolocation error.
+            You can choose between a text area on the page, an alert pop-up, or to only display the error in the console.
+    			  Note that div and alert will also show the error in the console.
+            ]]>
+    			</description>
+    			<value>alert</value>
+    			<options>
+    				<option value="div" text="Text in a div"/>
+    				<option value="alert" text="Alert pop-up" />
+            <option value="console" text="Console only" />
+            <option value="none" text="None" />
+    			</options>
+    		</property>
+	</category>
+
+  <category id="markers" name="Markers" >
+    <property xsi:type="standardProperty" id="multipleMarkers" name="multiple Markers" type="boolean" mode="static">
+       <description>
+         <![CDATA[
+         Allows the user to pin several markers ont he map.
+         You need to merge several questions to set this property to true.
+       ]]>
+       </description>
+       <value>false</value>
+     </property>
+     <property xsi:type="standardProperty" id="nbMarkers" name="Number of markers" type="number" mode="static">
+       <description>
+           <![CDATA[
+           The number of markers the user is allowed to pin on the map.
+           This number must match the number of questions.
+         ]]>
+       </description>
+         <value>1</value>
+       </property>
+  </category>
+
+
+
   </properties>
 </control>
