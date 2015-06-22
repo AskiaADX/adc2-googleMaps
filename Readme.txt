@@ -13,5 +13,3 @@ See the example file for more information.
 Notes:
 If going back in the survey, the markers positions are saved.
 This ADC works for multiple instances on the same screen.
-
-An askiaScript error might show up when not using multipleMarkers.

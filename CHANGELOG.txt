@@ -2,6 +2,6 @@ Version 2.0.0
 
 Reworked the whole ADC, now functioning as the others with static and dynamic files.
 Added a property to add multiple markers to the ADC.
-An AskiaScript Warning should show up when not using this property. It is unwanted but I couldn't figure a way to disable it.
+An AskiaScript Warning should show up when not using this property. This issue is solved for Askia Design 5.3.5 .
 
 This ADC works with multiple instances on the same page, and the placed markers are saved when browsing through the survey.
