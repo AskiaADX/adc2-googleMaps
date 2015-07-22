@@ -2,7 +2,7 @@ function initialize() {
 
   for(var mapIndex = 0; mapIndex<resources.length; mapIndex++){
 
-    console.log("initialize "+mapIndex);
+    // console.log("initialize "+mapIndex);
     var mapSet = resources[mapIndex];
 
   	//mapSet["map"] initialization
@@ -12,15 +12,15 @@ function initialize() {
       mapTypeId:mapSet["mapStyle"]
     };
 
-    console.log("adding the map to the DOM");
+    // console.log("adding the map to the DOM");
 
     var mapId = "googleMap"+mapSet["adcId"];
     mapSet["map"]=new google.maps.Map(document.getElementById(mapId), mapProp);
-    console.log("added the map to the DOM");
+    // console.log("added the map to the DOM");
     mapSet["map"].id = mapIndex;
 
     if(mapSet["startAtCurrentPos"]){
-      console.log("startAtCurrentPos");
+      // console.log("startAtCurrentPos");
       // Try HTML5 geolocation
       if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -81,7 +81,7 @@ function initialize() {
 
   }
 //fin foreach map
-  console.log("initialization finished");
+  // console.log("initialization finished");
 }
 
 function handleNoGeolocation(errorFlag, mapIndex) {
@@ -94,26 +94,26 @@ function handleNoGeolocation(errorFlag, mapIndex) {
 
   if (mapSet["errorDisplayMode"]=="div") {
     $("#adc_"+mapSet["adcId"]).append("<div class='noGeoError'>"+content+"</div>");
-    console.log(content);
+    console.error(content);
   } else if (mapSet["errorDisplayMode"]=="alert") {
     alert(content);
-    console.log(content);
+    console.error(content);
   } else if (mapSet["errorDisplayMode"]=="console") {
-    console.log(content);
+    console.error(content);
   }
 }
 
 
 function placeMarker(position, mapIndex) {//place or move the marker on click
   var mapSet = resources[mapIndex];
-  console.log("placeMarker "+mapIndex);
+  // console.log("placeMarker "+mapIndex);
   if(mapSet["multipleMarkers"]){
     //find an empty cell in the array
       var i=0;
       var cont=true;
       do{
         if(mapSet["marker"][i].map==null){
-          console.log("empty cell found "+i);
+          // console.log("empty cell found "+i);
           mapSet["marker"][i].setMap(mapSet["map"]);
           mapSet["marker"][i].setPosition(position);
           cont=false;
@@ -153,7 +153,7 @@ function deleteMarker(mapIndex){
 
 
 function setCurPos(mapIndex){
-  console.log("setCurPos");
+  // console.log("setCurPos");
   var mapSet = resources[mapIndex];
 	  // Try HTML5 geolocation
   if(navigator.geolocation) {

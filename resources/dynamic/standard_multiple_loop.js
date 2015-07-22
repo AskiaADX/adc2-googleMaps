@@ -8,7 +8,7 @@ Dim ar2 = CurrentQuestion.ParentLoop.AvailableResponses
 Dim adcId = CurrentADC.InstanceID
 %}
 
-console.log("boucleFor AS");
+// console.log("boucleFor AS");
 {%
   For i = 1 To ar1.Count
   	For j = 1 to ar2.count
@@ -22,7 +22,7 @@ console.log("boucleFor AS");
       {% ElseIf i = 2 Then %}
       resources[resIndex]["marker"][{%= j-1 %}].lngInputName = "{%= inputName %}";
       {% Else %}
-        console.log("Error in the question order.");
+        console.error("Error in the question order.");
       {% EndIf %}
 
 	{% Next%}

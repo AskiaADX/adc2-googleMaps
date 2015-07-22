@@ -32,7 +32,7 @@ var resources = [];
 
 var resIndex = {%= adcId %}-1;
 
-console.log("generating resources");
+// console.log("generating resources");
 resources[resIndex]= {
 
       "adcId" : Number({%= adcId %}),
@@ -61,8 +61,8 @@ resources[resIndex]= {
 
 {% EndIf %}
 
-console.log(resources);
+// console.log(resources);
 
 google.maps.event.addDomListener(window, 'load', initialize);
-console.log("dom listener added");
+// console.log("dom listener added");
 // ("mapSet{%= adcId %}")
