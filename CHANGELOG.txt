@@ -5,3 +5,6 @@ Added a property to add multiple markers to the ADC.
 An AskiaScript Warning should show up when not using this property. This issue is solved for Askia Design 5.3.5 .
 
 This ADC works with multiple instances on the same page, and the placed markers are saved when browsing through the survey.
+
+
+2.0.1 : Fixed a bug with the multiple markers

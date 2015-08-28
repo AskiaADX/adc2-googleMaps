@@ -12,8 +12,8 @@ Dim adcId = CurrentADC.InstanceID
 {%
   For i = 1 To ar1.Count
   	For j = 1 to ar2.count
-    	inputName = CurrentQuestion.Iteration(loop:i,loop2:j).InputName()
-    	inputValue = CurrentQuestion.Iteration(loop:i,loop2:j).InputValue() %}
+    	inputName = CurrentQuestion.Iteration(j,i).InputName()
+    	inputValue = CurrentQuestion.Iteration(j,i).InputValue() %}
 
 
       {% If i = 1 Then %}
