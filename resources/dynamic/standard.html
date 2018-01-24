@@ -1,4 +1,4 @@
-﻿{%
+{%
 Dim ar
 Dim qFinputName
 Dim qSinputName
@@ -21,7 +21,7 @@ Dim attrRequired = On(CurrentQuestion.IsAllowDK, "required=\"required\"", "")
 %}
 
 {% If adcId < 2 Then %}
-<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
 {% EndIf %}
 
 <div id="adc_{%= CurrentQuestion.Id %}" class="adc-googleMaps">
@@ -35,8 +35,8 @@ Dim attrRequired = On(CurrentQuestion.IsAllowDK, "required=\"required\"", "")
 	ar = CurrentQuestion.ParentLoop.AvailableResponses
 	qFinputName = CurrentQuestion.Iteration(ar[1].Index).InputName()
 	qSinputName = CurrentQuestion.Iteration(ar[2].Index).InputName()
-	qFinputValue = CurrentQuestion.Iteration(ar[1].Index).InputValue()
-	qSinputValue = CurrentQuestion.Iteration(ar[2].Index).InputValue()
+	qFinputValue = CurrentQuestion.Iteration(ar[1].Index).InputValue().Replace(",",".")
+	qSinputValue = CurrentQuestion.Iteration(ar[2].Index).InputValue().Replace(",",".")
 %}
  <input hidden type="number" name="{%= qFinputName %}" id="{%= qFinputName %}" value="{%= qFinputValue %}" step="any" />
  <input hidden type="number" name="{%= qSinputName %}" id="{%= qSinputName %}" value="{%= qSinputValue %}" step="any" />

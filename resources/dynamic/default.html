@@ -1,4 +1,4 @@
-﻿{% 
+{% 
 Dim ar
 Dim qFinputName
 Dim qSinputName
@@ -20,8 +20,8 @@ Dim attrRequired = On(CurrentQuestion.IsAllowDK, "required=\"required\"", "")
 	ar = CurrentQuestion.ParentLoop.AvailableResponses
 	qFinputName = CurrentQuestion.Iteration(ar[1].Index).InputName()
 	qSinputName = CurrentQuestion.Iteration(ar[2].Index).InputName()
-	qFinputValue = CurrentQuestion.Iteration(ar[1].Index).InputValue()
-	qSinputValue = CurrentQuestion.Iteration(ar[2].Index).InputValue()
+	qFinputValue = CurrentQuestion.Iteration(ar[1].Index).InputValue().Replace(",",".")
+	qSinputValue = CurrentQuestion.Iteration(ar[2].Index).InputValue().Replace(",",".")
 %}
 
  <input type="number" name="{%= qFinputName %}" id="{%= qFinputName %}" value="{%= qFinputValue %}" step="any" />

@@ -22,8 +22,8 @@
 		ar = CurrentQuestion.ParentLoop.AvailableResponses
 		qLatInputName = CurrentQuestion.Iteration(ar[1].Index).InputName()
 		qLngInputName = CurrentQuestion.Iteration(ar[2].Index).InputName()
-		qLatInputValue = CurrentQuestion.Iteration(ar[1].Index).InputValue()
-		qLngInputValue = CurrentQuestion.Iteration(ar[2].Index).InputValue()
+    qLatInputValue = CurrentQuestion.Iteration(ar[1].Index).InputValue().Replace(",",".")
+		qLngInputValue = CurrentQuestion.Iteration(ar[2].Index).InputValue().Replace(",",".")
 	EndIf %}
 
 {% If adcId < 2 Then %}

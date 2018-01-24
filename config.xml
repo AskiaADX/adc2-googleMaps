@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<control xmlns="http://www.askia.com/ADCSchema"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.askia.com/ADCSchema http://www.askia.com/Downloads/dev/schemas/adc2.0/Config.xsd"
-         version="2.0.0"
-         askiaCompat="5.3.3">
+<control  xmlns="http://www.askia.com/2.0.0/ADCSchema"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.askia.com/2.0.0/ADCSchema https://raw.githubusercontent.com/AskiaADX/ADXSchema/2.0.0/ADCSchema.xsd"
+          version="2.0.0"
+          askiaCompat="5.3.3">
   <info>
     <name>adc2-googleMaps</name>
     <guid>9e09a4dd-02b5-40cf-9520-b010ab328110</guid>
-    <version>2.0.1</version>
     <date>2015-06-17</date>
-    <description>
-      <![CDATA[
-        ADC using Google Maps
+    <description><![CDATA[ADC using Google Maps
 
 		Returning two numbers which are the coordinates of the point marked by the respondant.
     The respondent can also use a button to use his current location as an answer, if allowed by his browser.
@@ -30,204 +27,175 @@
 
 
 	Changelog :
-	2.0.1 : Fixed a bug with the multiple markers
-
-      ]]>
-    </description>
-    <author>
-      <![CDATA[
-        Thibault Piriou <thibault@askia.com>
-      ]]>
-    </author>
+	2.0.1 : Fixed a bug with the multiple markers]]></description>
     <company>Askia</company>
-    <helpURL></helpURL>
+    <author><![CDATA[Thibault Piriou <thibault@askia.com>]]></author>
     <site></site>
+    <helpURL></helpURL>
     <categories>
       <category>General</category>
     </categories>
-    <style width="400" height="300"/>
+    <style width="400" height="300" />
     <constraints>
-      <constraint on="questions" multiple="true" numeric="true"/>
-      <constraint on="controls" responseblock="true" textbox="true" label="true" />
+      <constraint on="questions" multiple="true" numeric="true" chapter="false" date="false" open="false" requireParentLoop="false" single="false" />
+      <constraint on="controls" responseblock="true" textbox="true" label="true" checkbox="false" listbox="false" radiobutton="false" />
+      <constraint on="responses" max="*" min="*" />
     </constraints>
   </info>
-
   <outputs defaultOutput="fallback">
     <output id="fallback">
       <description><![CDATA[Fallback when the browser doesn't support Javascript]]></description>
       <condition><![CDATA[Not(Browser.Support("javascript"))]]></condition>
-
       <content fileName="default.html" type="html" mode="dynamic" position="placeholder" />
-	  <content fileName="default.css" type="css" mode="static" position="head" />
-
+      <content fileName="default.css" type="css" mode="static" position="head" />
     </output>
-	    <output id="standard">
+    <output id="standard">
       <description><![CDATA[Standard output with supported Javascript]]></description>
       <condition><![CDATA[Browser.Support("javascript")]]></condition>
-
       <content fileName="standard.html" type="html" mode="dynamic" position="placeholder" />
       <content fileName="standard_multiple_loop.html" type="html" mode="dynamic" position="none" />
       <content fileName="default.css" type="css" mode="static" position="head" />
-	  <content fileName="initMapDynamic.js" type="javascript" mode="dynamic" position="none" />
-	  <content fileName="standard_multiple_loop.js" type="javascript" mode="dynamic" position="none" />
-    <content fileName="initMapStatic.js" type="javascript" mode="static" position="head" />
-
+      <content fileName="initMapDynamic.js" type="javascript" mode="dynamic" position="none" />
+      <content fileName="standard_multiple_loop.js" type="javascript" mode="dynamic" position="none" />
+      <content fileName="initMapStatic.js" type="javascript" mode="static" position="head" />
       <content fileName="es5-shim.min.js" type="javascript" mode="share" position="foot">
-        <yield>
-          <![CDATA[
+        <yield><![CDATA[
+          
           <!--[if lt IE 10]>
             <script type="text/javascript" src="{%= CurrentADC.URLTo("share/es5-shim.min.js") %}"></script>
           <![endif]-->
-          ]]>
-        </yield>
+          
+        ]]></yield>
       </content>
-	  <content fileName="jquery-1.11.1.min.js" type="javascript" mode="share" position="head"/>
-	  <content fileName="jquery-ui-1.10.4.custom.min.js" type="javascript" mode="share" position="head"/>
-	  <content fileName="jquery.ui.touch-punch.min.js" type="javascript" mode="share" position="head"/>
-	  <!-- <content filename="mobileDetection.js" type="javascript" mode="share" position="head" /> -->
+      <content fileName="jquery-1.11.1.min.js" type="javascript" mode="share" position="head" />
+      <content fileName="jquery-ui-1.10.4.custom.min.js" type="javascript" mode="share" position="head" />
+      <content fileName="jquery.ui.touch-punch.min.js" type="javascript" mode="share" position="head" />
     </output>
   </outputs>
-
   <properties>
-	<category id="map" name="Map">
-
-		<property xsi:type="standardProperty" id="mapStyle" name="map Style" type="string" mode="static">
-			<description>
-			  <![CDATA[
+    <category id="map" name="Map">
+      <property xsi:type="standardProperty" id="mapStyle" name="map Style" type="string" mode="static">
+        <description><![CDATA[
+			  
 				The desired style for the map.
-			  ]]>
-			</description>
-			<value>roadmap</value>
-			<options>
-				<option value="roadmap" text="Road Map"/>
-				<option value="satellite" text="Satellite" />
-				<option value="terrain" text="Terrain" />
-				<option value="hybrid" text="Hybrid" />
-			</options>
-		</property>
-
-		<property xsi:type="standardProperty" id="mapHeight" name="Map size - Height" type="number" mode="static">
-			<description>
-				  <![CDATA[
+			  
+			]]></description>
+        <value><![CDATA[roadmap]]></value>
+        <options>
+          <option value="roadmap" text="Road Map" />
+          <option value="satellite" text="Satellite" />
+          <option value="terrain" text="Terrain" />
+          <option value="hybrid" text="Hybrid" />
+        </options>
+      </property>
+      <property xsi:type="standardProperty" id="mapHeight" name="Map size - Height" type="number" mode="static">
+        <description><![CDATA[
+				  
 				  The size of the map (height).
-				]]>
-			</description>
-        <value>400</value>
+				
+			]]></description>
+        <value><![CDATA[400]]></value>
       </property>
-
-		<property xsi:type="standardProperty" id="mapWidth" name="Map size - Width" type="number" mode="static">
-			<description>
-				  <![CDATA[
+      <property xsi:type="standardProperty" id="mapWidth" name="Map size - Width" type="number" mode="static">
+        <description><![CDATA[
+				  
 				  The size of the map (width).
-				]]>
-			</description>
-        <value>600</value>
+				
+			]]></description>
+        <value><![CDATA[600]]></value>
       </property>
-	</category>
-
-	<category id="startingCoord" name="Starting coordinates" >
-
-		<property xsi:type="standardProperty" id="startingLat" name="Starting latitude" type="number" mode="static">
-			<description>
-				  <![CDATA[
+    </category>
+    <category id="startingCoord" name="Starting coordinates">
+      <property xsi:type="standardProperty" id="startingLat" name="Starting latitude" type="number" mode="static">
+        <description><![CDATA[
+				  
 				  The starting latitude.
 				  Default : Centered on Europe.
-				]]>
-			</description>
-        <value>48.30</value>
+				
+			]]></description>
+        <value><![CDATA[48.30]]></value>
       </property>
-		<property xsi:type="standardProperty" id="startingLng" name="Starting longitude" type="number" mode="static">
-			<description>
-				  <![CDATA[
+      <property xsi:type="standardProperty" id="startingLng" name="Starting longitude" type="number" mode="static">
+        <description><![CDATA[
+				  
 				  The starting longitude.
 				  Default : Centered on Europe.
-				]]>
-			</description>
-        <value>10.75</value>
+				
+			]]></description>
+        <value><![CDATA[10.75]]></value>
       </property>
-		<property xsi:type="standardProperty" id="startingZoom" name="Starting zoom" type="number" mode="static">
-			<description>
-				  <![CDATA[
+      <property xsi:type="standardProperty" id="startingZoom" name="Starting zoom" type="number" mode="static">
+        <description><![CDATA[
+				  
 				  The starting zoom om the map.
 				  Default : Centered on Europe.
-				]]>
-			</description>
-        <value>4</value>
+				
+			]]></description>
+        <value><![CDATA[4]]></value>
       </property>
-
-	</category>
-
-
-	<category id="geolocation" name="Geolocation" >
-
-	   <property xsi:type="standardProperty" id="useCurrentPosButton" name="Use a button to set user's current position" type="boolean" mode="static">
-        <description>
-          <![CDATA[
+    </category>
+    <category id="geolocation" name="Geolocation">
+      <property xsi:type="standardProperty" id="useCurrentPosButton" name="Use a button to set user's current position" type="boolean" mode="static">
+        <description><![CDATA[
+          
           Use a button which on click set the marker to the current position of the user, if his browser allows it.
-        ]]>
-        </description>
-        <value>false</value>
+        
+        ]]></description>
+        <value><![CDATA[false]]></value>
       </property>
-
       <property xsi:type="standardProperty" id="setCurPosLabel" name="Set current position button label" type="string" mode="static">
-        <description>
-          <![CDATA[
+        <description><![CDATA[
+          
           The label of the button used to set the user's position as a marker.
-          ]]>
-        </description>
-        <value>Set my current position</value>
+          
+        ]]></description>
+        <value><![CDATA[Set my current position]]></value>
       </property>
-
       <property xsi:type="standardProperty" id="startAtCurrentPos" name="Initialize map on user's current position" type="boolean" mode="static">
-          <description>
-            <![CDATA[
+        <description><![CDATA[
+            
            Initialize the map on the current position of the user, if his browser allows it.
        If set as true, this property overrides the starting latitude and longitude properties.
-          ]]>
-          </description>
-          <value>false</value>
-        </property>
-
-        <property xsi:type="standardProperty" id="errorDisplayMode" name="Error display mode" type="string" mode="static">
-    			<description>
-    			  <![CDATA[
+          
+          ]]></description>
+        <value><![CDATA[false]]></value>
+      </property>
+      <property xsi:type="standardProperty" id="errorDisplayMode" name="Error display mode" type="string" mode="static">
+        <description><![CDATA[
+    			  
     				The desired mode of display in case of a geolocation error.
             You can choose between a text area on the page, an alert pop-up, or to only display the error in the console.
     			  Note that div and alert will also show the error in the console.
-            ]]>
-    			</description>
-    			<value>alert</value>
-    			<options>
-    				<option value="div" text="Text in a div"/>
-    				<option value="alert" text="Alert pop-up" />
-            <option value="console" text="Console only" />
-            <option value="none" text="None" />
-    			</options>
-    		</property>
-	</category>
-
-  <category id="markers" name="Markers" >
-    <property xsi:type="standardProperty" id="multipleMarkers" name="multiple Markers" type="boolean" mode="static">
-       <description>
-         <![CDATA[
+            
+    			]]></description>
+        <value><![CDATA[alert]]></value>
+        <options>
+          <option value="div" text="Text in a div" />
+          <option value="alert" text="Alert pop-up" />
+          <option value="console" text="Console only" />
+          <option value="none" text="None" />
+        </options>
+      </property>
+    </category>
+    <category id="markers" name="Markers">
+      <property xsi:type="standardProperty" id="multipleMarkers" name="multiple Markers" type="boolean" mode="static">
+        <description><![CDATA[
+         
          Allows the user to pin several markers ont he map.
          You need to merge several questions to set this property to true.
-       ]]>
-       </description>
-       <value>false</value>
-     </property>
-     <property xsi:type="standardProperty" id="nbMarkers" name="Number of markers" type="number" mode="static">
-       <description>
-           <![CDATA[
+       
+       ]]></description>
+        <value><![CDATA[false]]></value>
+      </property>
+      <property xsi:type="standardProperty" id="nbMarkers" name="Number of markers" type="number" mode="static">
+        <description><![CDATA[
+           
            The number of markers the user is allowed to pin on the map.
            This number must match the number of questions.
-         ]]>
-       </description>
-         <value>1</value>
-       </property>
-  </category>
-
-
-
+         
+       ]]></description>
+        <value><![CDATA[1]]></value>
+      </property>
+    </category>
   </properties>
 </control>
